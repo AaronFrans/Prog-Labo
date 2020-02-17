@@ -6,10 +6,18 @@ namespace Labo_Prog
 {
     class Punt
     {
-        #region Functions
+        #region Constructor
+        public Punt(float x,float y)
+        {
+            m_X = x;
+            m_Y = y;
+        }
+        #endregion
+
+        #region HelperFunctions
         public override string ToString()
         {
-            return $"X: {m_X}, Y: {m_Y}";
+            return $"X: {m_X}, Y: {m_Y}\n";
         }
         public override bool Equals(object obj)
         {
