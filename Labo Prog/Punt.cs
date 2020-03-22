@@ -7,7 +7,7 @@ namespace Labo_Prog
     class Punt
     {
         #region Constructor
-        public Punt(float x,float y)
+        public Punt(decimal x, decimal y)
         {
             m_X = x;
             m_Y = y;
@@ -32,8 +32,8 @@ namespace Labo_Prog
         #endregion
 
         #region Proprties
-        public float m_X { get; private set; }
-        public float m_Y { get; private set; }
+        public decimal m_X { get; private set; }
+        public decimal m_Y { get; private set; }
         #endregion
     }
 }

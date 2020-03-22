@@ -18,7 +18,7 @@ namespace Labo_Prog
 
         public override string ToString()
         {
-            return $"Knoop: {m_KnoopID}\n" + m_Punt.ToString();
+            return $"Knoop: {m_KnoopID} \n" + m_Punt.ToString();
         }
 
         public override bool Equals(object obj)

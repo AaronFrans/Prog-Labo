@@ -33,13 +33,17 @@ namespace Labo_Prog
         public override string ToString()
         {
             string toReturn = "";
-            toReturn += m_BeginKnoop.ToString();
+            toReturn += $"Segment: {m_SegmentID}";
+            toReturn += "Begin Knoop: " + m_BeginKnoop.ToString();
+
+            toReturn += "Punten: \n";
+
             foreach(Punt punt in m_Vertices)
             {
                 toReturn += punt.ToString();
             }
-            toReturn += m_EindKnoop.ToString();
-            return base.ToString();
+            toReturn += "Eind Knoop: " + m_EindKnoop.ToString();
+            return toReturn;
         }
 
         #endregion

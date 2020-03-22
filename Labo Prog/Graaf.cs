@@ -17,7 +17,6 @@ namespace Labo_Prog
 
         #region HelperFunctions
 
-
         public void ShowGraaf()
         {
             foreach(KeyValuePair< Knoop, List<Segment>> pair in m_Map)
@@ -53,7 +52,6 @@ namespace Labo_Prog
                     }
                 }
             }
-            ToReturn.m_Map.Add(segments[0].m_BeginKnoop, segments);
             return ToReturn;
 
         }

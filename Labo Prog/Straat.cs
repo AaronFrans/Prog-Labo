@@ -31,10 +31,11 @@ namespace Labo_Prog
         #endregion
 
         #region Properties
-        Graaf m_Graaf = null;
+        Graaf m_Graaf;
         int m_ID;
         string m_Naam;
         #endregion
+
 
     }
 }
