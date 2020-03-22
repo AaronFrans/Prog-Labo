@@ -7,9 +7,11 @@ namespace Labo_Prog
     {
         static void Main(string[] args)
         {
-            Dictionary<int, List<Segment>> segmentenPerStraat = Parser.ParseSegment(@"E:\School\Hogent\prog 3\Labo\WRdata-master\WRdata", "WRdata", "csv", ';');
+            Dictionary<int, List<Segment>> segmentenPerStraat = Parser.ParseSegment(@"E:\School\Hogent\prog 3\Labo\WRdata-master\WRdata", "WRdata");
 
-            List<Straat> straten = Tools.MaakStraten(segmentenPerStraat);
+            Dictionary<int, string> straatNaamLookup = Parser.ParseStraatNamen(@"E:\School\Hogent\prog 3\Labo\WRdata-master\WRstraatnamen", "WRstraatnamen");
+            
+            List<Straat> straten = Tools.MaakStraten(segmentenPerStraat,straatNaamLookup);
 
             foreach(Straat straat in straten)
             {

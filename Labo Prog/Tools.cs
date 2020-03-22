@@ -7,16 +7,20 @@ namespace Labo_Prog
 {
     class Tools
     {
-        public static List<Straat> MaakStraten(Dictionary<int, List<Segment>> straten)
+        public static List<Straat> MaakStraten(Dictionary<int, List<Segment>> straten, Dictionary<int, string> straatNaamLookup)
         {
             List<Straat> toReturn = new List<Straat>();
             int GraafIDCounter = 1;
             foreach(KeyValuePair<int, List<Segment>> segmentenInStraat in straten)
             {
-                Graaf graafInStraat = Graaf.BuildGraaf(GraafIDCounter, segmentenInStraat.Value);
-                Straat toAdd = new Straat(segmentenInStraat.Key, $"Testing Straat{GraafIDCounter}", graafInStraat);
-                GraafIDCounter++;
-                toReturn.Add(toAdd);
+                if(straatNaamLookup.ContainsKey(segmentenInStraat.Key))
+                {
+                    Graaf graafInStraat = Graaf.BuildGraaf(GraafIDCounter, segmentenInStraat.Value);
+                    Straat toAdd = new Straat(segmentenInStraat.Key, straatNaamLookup[segmentenInStraat.Key], graafInStraat);
+                    GraafIDCounter++;
+                    toReturn.Add(toAdd);
+                }
+           
             }
 
             return toReturn;

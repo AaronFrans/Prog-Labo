@@ -21,7 +21,8 @@ namespace Labo_Prog
         {
             foreach(KeyValuePair< Knoop, List<Segment>> pair in m_Map)
             {
-                Console.WriteLine(pair.Key.ToString());
+                Console.WriteLine($"Graaf met ID: {m_GraafID}\n");
+
                 foreach(Segment segment in pair.Value)
                 {
                     Console.WriteLine(segment.ToString());

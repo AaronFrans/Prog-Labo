@@ -24,9 +24,10 @@ namespace Labo_Prog
             return splitLines;
 
         }
-        public static Dictionary<int, List<Segment>> ParseSegment(string path, string fileName, string extension, char delim)
+
+        public static Dictionary<int, List<Segment>> ParseSegment(string path, string fileName)
         {
-            List<string[]> lines = FileSplitter(path, fileName, extension, delim);
+            List<string[]> lines = FileSplitter(path, fileName, "csv", ';');
             lines = lines.Skip(1).ToList(); //get rid of 1st useless line
             Dictionary<int, List<Segment>> toReturn = new Dictionary<int, List<Segment>>();
             foreach (string[] line in lines)
@@ -148,6 +149,28 @@ namespace Labo_Prog
             }
 
             return toReturn;
+        }
+
+        public static Dictionary<int, string> ParseStraatNamen(string path, string fileName)
+        {
+            Dictionary<int, string> straten = new Dictionary<int, string>();
+
+            List<string[]> lines = FileSplitter(path, fileName, "csv", ';');
+
+
+            foreach (var line in lines)
+            {
+                int id;
+                int.TryParse(line[0], out id);
+                if (id > 0)
+                {
+                    straten.Add(id, line[1].Trim(' ', '"'));
+                }
+
+            }
+
+            return straten;
+
         }
 
 
