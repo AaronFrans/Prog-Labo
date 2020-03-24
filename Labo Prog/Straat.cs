@@ -31,9 +31,9 @@ namespace Labo_Prog
         #endregion
 
         #region Properties
-        Graaf m_Graaf;
-        int m_ID;
-        string m_Naam;
+        public Graaf m_Graaf { get; private set; }
+        public int m_ID { get; private set; }
+        public string m_Naam { get; private set; }
         #endregion
 
 

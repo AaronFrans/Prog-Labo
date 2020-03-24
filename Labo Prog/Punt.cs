@@ -1,16 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Labo_Prog
 {
-    class Punt
+    public class Punt
     {
         #region Constructor
-        public Punt(decimal x, decimal y)
+        //public Punt()
+        //{
+
+        //}
+
+
+        public Punt(double x, double y)
         {
             m_X = x;
             m_Y = y;
+        }
+
+        private Punt()
+        {
+           
         }
         #endregion
 
@@ -29,11 +41,13 @@ namespace Labo_Prog
         {
             return HashCode.Combine(m_X, m_Y);
         }
+
+        
         #endregion
 
         #region Proprties
-        public decimal m_X { get; private set; }
-        public decimal m_Y { get; private set; }
+        public double m_X { get; set; }
+        public double m_Y { get; set; }
         #endregion
     }
 }

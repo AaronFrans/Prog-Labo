@@ -4,10 +4,15 @@ using System.Text;
 
 namespace Labo_Prog
 {
-    class Knoop
+    public class Knoop
     {
         #region Constructor
-        public Knoop(int knoopID, Punt punt)
+        private Knoop()
+        {
+
+        }
+
+    public Knoop(int knoopID, Punt punt)
         {
             m_KnoopID = knoopID;
             m_Punt = punt;
@@ -35,8 +40,8 @@ namespace Labo_Prog
         #endregion
 
         #region Properties
-        public int m_KnoopID { get; private set; }
-        public Punt m_Punt { get; private set;}
+        public int m_KnoopID { get; set; }
+        public Punt m_Punt { get; set; }
 
 
         #endregion

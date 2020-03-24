@@ -70,7 +70,7 @@ namespace Labo_Prog
         #endregion
 
         #region Properties
-        public int m_GraafID { get; private set; }
+        public int m_GraafID { get; set; }
         public Dictionary<Knoop, List<Segment>> m_Map { get; set; } = new Dictionary<Knoop, List<Segment>>(); 
 
         #endregion
