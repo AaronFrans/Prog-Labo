@@ -8,8 +8,12 @@ namespace Labo_Prog
 {
     class Output
     {
-
-        public static void SerializeProvincies(List<Provincie> toSerialize)
+        public static void MakeOutputFiles(List<Provincie> toOutput)
+        {
+            SerializeProvincies(toOutput);
+            MakeReport(toOutput);
+        }
+        private static void SerializeProvincies(List<Provincie> toSerialize)
         {
             using (Stream s = File.Open(@"C:\Users\aaron\Downloads\Provincies.txt", FileMode.Create))
             {
@@ -19,7 +23,7 @@ namespace Labo_Prog
 
         }
 
-        public static void MakeReport(List<Provincie> toReport)
+        private static void MakeReport(List<Provincie> toReport)
         {
             var report = File.Create(@"C:\Users\aaron\Downloads\Rapport.txt");
             report.Close();

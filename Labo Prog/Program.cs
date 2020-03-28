@@ -11,8 +11,9 @@ namespace Labo_Prog
     {
         static void Main(string[] args)
         {
-            Controller.RunTool1();
+            //Controller.RunTool1();
 
+            Console.ReadLine();
         }
     }
 }

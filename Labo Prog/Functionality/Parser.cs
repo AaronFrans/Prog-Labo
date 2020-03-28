@@ -7,6 +7,7 @@ namespace Labo_Prog
 {
     class Parser
     {
+         
         public static List<string[]> FileSplitter(string path, string fileName, string extension, char delim)
         {
             List<string[]> splitLines = new List<string[]>();
@@ -24,7 +25,7 @@ namespace Labo_Prog
             return splitLines;
 
         }
-
+        
         public static Dictionary<int, List<Segment>> ParseSegment(string path, string fileName)
         {
             List<string[]> lines = FileSplitter(path, fileName, "csv", ';');
@@ -32,8 +33,14 @@ namespace Labo_Prog
             Dictionary<int, List<Segment>> toReturn = new Dictionary<int, List<Segment>>();
             foreach (string[] line in lines)
             {
-                int.TryParse(line[line.Length - 1], out int linksStraatID);
-                int.TryParse(line[line.Length - 2], out int rechtStraatID);
+                if (!int.TryParse(line[line.Length - 1], out int linksStraatID))
+                {
+                    throw new IdException("Een van de linksStraatIDs in WRData.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
+                if(!int.TryParse(line[line.Length - 2], out int rechtStraatID))
+                {
+                    throw new IdException("Een van de linksStraatIDs in WRData.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
                 if (linksStraatID == rechtStraatID)
                 {
                     if (linksStraatID != -9)
@@ -149,7 +156,7 @@ namespace Labo_Prog
 
             return toReturn;
         }
-
+        
         public static Dictionary<int, string> ParseStraatNamen(string path, string fileName)
         {
             Dictionary<int, string> straten = new Dictionary<int, string>();
@@ -160,10 +167,14 @@ namespace Labo_Prog
             foreach (var line in lines)
             {
                 
-                int.TryParse(line[0], out int id);
-                if (id > 0)
+                if(!int.TryParse(line[0], out int ID))
                 {
-                    straten.Add(id, line[1].Trim(' '));
+                    throw new IdException("Een van de IDs in WRStraatnamen.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
+
+                if (ID > 0)
+                {
+                    straten.Add(ID, line[1].Trim(' '));
                 }
 
             }
@@ -171,7 +182,7 @@ namespace Labo_Prog
             return straten;
 
         }
-
+        
         public static Dictionary<int, List<int>> ParseStratenInGemeente(string path, string fileName)
         {
             Dictionary<int, List<int>> stratenInGemeente = new Dictionary<int, List<int>>();
@@ -179,8 +190,14 @@ namespace Labo_Prog
             foreach (var line in lines)
             {
                  
-                int.TryParse(line[0], out int straatID);
-                int.TryParse(line[1], out int gemeenteID);
+                if(!int.TryParse(line[0], out int straatID))
+                {
+                    throw new IdException("Een van de straatIDs in WRGemeenteID.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
+                if(!int.TryParse(line[1], out int gemeenteID))
+                {
+                    throw new IdException("Een van de straatIDs in WRGemeenteID.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
                 if (gemeenteID > 0)
                 {
                     bool isFound = false;
@@ -218,7 +235,7 @@ namespace Labo_Prog
 
             return stratenInGemeente;
         }
-
+        
         public static Dictionary<int, string> ParseGemeenteNaam(string path, string fileName)
         {
             Dictionary<int, string> gemeente = new Dictionary<int, string>();
@@ -231,27 +248,28 @@ namespace Labo_Prog
                 if (line[2] == "nl")
                 {
                     
-                    int.TryParse(line[1], out int id);
+                    if(!int.TryParse(line[1], out int gemeenteID))
+                    {
+                        throw new IdException("Een van de gemeenteID in WRGemeentenaam.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                    }
                     foreach (KeyValuePair<int, string> pair in gemeente)
                     {
-                        if (id == pair.Key)
+                        if (gemeenteID == pair.Key)
                         {
                             isAdded = true;
                         }
                     }
                     if (isAdded == false)
-                        gemeente.Add(id, line[3]);
+                        gemeente.Add(gemeenteID, line[3]);
 
 
 
 
                 }
             }
-            gemeente = gemeente.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             return gemeente;
         }
-
-
+         
         public static Dictionary<int, string> ParseProvincieNaam(string path, string fileName1, string fileName2)
         {
             Dictionary<int, string> Provincie = new Dictionary<int, string>();
@@ -261,8 +279,13 @@ namespace Labo_Prog
             {
                 foreach (string st in line)
                 {
-                    int.TryParse(st, out int id);
-                    neededProvincieIDs.Add(id);
+                    if (!int.TryParse(st, out int ID))
+                    {
+                        throw new IdException("Een van de IDs in ProvincieIDsVlaanderen.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                    }
+
+
+                    neededProvincieIDs.Add(ID);
                 }
             }
 
@@ -271,14 +294,17 @@ namespace Labo_Prog
             foreach (var line in lines)
             {
 
-                
-                int.TryParse(line[1], out int ProvincieID);
+
+                if (!int.TryParse(line[1], out int provincieID))
+                {
+                    throw new IdException("Een van de provincieID in ProvincieInfo.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
                 if (line[2] == "nl")
                 {
                     bool isNeeded = false;
-                    foreach (int id in neededProvincieIDs)
+                    foreach (int ID in neededProvincieIDs)
                     {
-                        if (id == ProvincieID)
+                        if (ID == provincieID)
                         {
                             isNeeded = true;
                         }
@@ -289,25 +315,24 @@ namespace Labo_Prog
                         bool isAdded = false;
 
 
-                        int.TryParse(line[1], out int id);
+                        int.TryParse(line[1], out int ID);
                         foreach (KeyValuePair<int, string> pair in Provincie)
                         {
-                            if (id == pair.Key)
+                            if (ID == pair.Key)
                             {
                                 isAdded = true;
                             }
                         }
                         if (isAdded == false)
-                            Provincie.Add(id, line[3]);
+                            Provincie.Add(ID, line[3]);
 
                     }
                 }
             }
-            Provincie = Provincie.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             return Provincie;
 
         }
-
+         
         public static Dictionary<int, List<int>> ParseGemeentesinProvincie(string path, string fileName1, string fileName2)
         {
             Dictionary<int, List<int>> gemeenteInProvincie = new Dictionary<int, List<int>>();
@@ -317,24 +342,35 @@ namespace Labo_Prog
             {
                 foreach (string st in line)
                 {
-                    int.TryParse(st, out int id);
-                    neededProvincieIDs.Add(id);
+                    if(!int.TryParse(st, out int ID))
+                    {
+                        throw new IdException("Een van de IDs in ProvincieIDsVlaanderen.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                    }
+
+                    
+                    neededProvincieIDs.Add(ID);
                 }
             }
 
             lines = FileSplitter(path, fileName2, "csv", ';');
             foreach (var line in lines)
             {
-                int.TryParse(line[1], out int ProvincieID);
-                int.TryParse(line[0], out int gemeenteID);
-                if (ProvincieID > 0)
+                if (!int.TryParse(line[1], out int provincieID))
+                {
+                    throw new IdException("Een van de provincieID in ProvincieInfo.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
+                if (!int.TryParse(line[0], out int gemeenteID))
+                {
+                    throw new IdException("Een van de gemeenteIDs in ProvincieInfo.csv is geen nummer van het type Int. Gelieve dit te veranderen");
+                }
+                if (provincieID > 0)
                 {
                     if (line[2] == "nl")
                     {
                         bool isNeeded = false;
-                        foreach (int id in neededProvincieIDs)
+                        foreach (int ID in neededProvincieIDs)
                         {
-                            if (id == ProvincieID)
+                            if (ID == provincieID)
                             {
                                 isNeeded = true;
                             }
@@ -346,7 +382,7 @@ namespace Labo_Prog
                             if (gemeenteInProvincie.Count == 0)
                             {
 
-                                gemeenteInProvincie.Add(ProvincieID, new List<int>() { gemeenteID });
+                                gemeenteInProvincie.Add(provincieID, new List<int>() { gemeenteID });
 
                             }
                             else
@@ -354,7 +390,7 @@ namespace Labo_Prog
                                 foreach (KeyValuePair<int, List<int>> Provincie in gemeenteInProvincie)
                                 {
 
-                                    if (ProvincieID == Provincie.Key)
+                                    if (provincieID == Provincie.Key)
                                     {
                                         isFound = true;
                                     }
@@ -363,11 +399,11 @@ namespace Labo_Prog
                                 }
                                 if (!isFound)
                                 {
-                                    gemeenteInProvincie.Add(ProvincieID, new List<int>() { gemeenteID });
+                                    gemeenteInProvincie.Add(provincieID, new List<int>() { gemeenteID });
                                 }
                                 else
                                 {
-                                    gemeenteInProvincie[ProvincieID].Add(gemeenteID);
+                                    gemeenteInProvincie[provincieID].Add(gemeenteID);
                                 }
                             }
                         }

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
+using System.IO.Compression;
 
 namespace Labo_Prog
 {
     class Tools
     {
+         
         static public List<Straat> MaakStraten(string path)
         {
             Dictionary<int, List<Segment>> straten = Parser.ParseSegment(path, "WRdata");
@@ -24,21 +26,37 @@ namespace Labo_Prog
                     Straat toAdd = new Straat(segmentenInStraat.Key, straatNaamLookup[segmentenInStraat.Key], graafInStraat);
                     toReturn.Add(toAdd);
                 }
-
             }
 
             return toReturn;
         }
+         
+        public static void UnzipFiles(string path)
+        {
+            var directory = new DirectoryInfo(path);
+            foreach (var file in directory.GetFiles())
+            {
+                if (file.Extension.Equals(".zip"))
+                {
+                    ZipFile.ExtractToDirectory(file.FullName, path);
+                }
+            }
 
-
-
+        }
+         
         public static Segment MakeSegment(string[] line)
         {
             string toTrim = "LINESTRING( )";
             List<Punt> segmentPunten = SplitPunten(line[1].Trim(toTrim.ToCharArray()));
             Knoop beginKnoop, eindKnoop;
-            int.TryParse(line[4], out int beginKnoopID);
-            int.TryParse(line[5], out int eindKnoopID);
+            if(!int.TryParse(line[4], out int beginKnoopID))
+            {
+                throw new IdException("Een beginKnoopID in file WRdata.csv was geen nummer van het type Int. Gelieve dit te veranderen");
+            }
+            if (!int.TryParse(line[5], out int eindKnoopID))
+            {
+                throw new IdException("Een eindKnoop in file WRdata.csv was geen nummer van het type Int. Gelieve dit te veranderen");
+            }
             beginKnoop = new Knoop(beginKnoopID, segmentPunten.First());
             eindKnoop = new Knoop(eindKnoopID, segmentPunten.Last());
             int.TryParse(line[0], out int segmentID);
@@ -46,6 +64,7 @@ namespace Labo_Prog
 
             return toReturn;
         }
+         
         public static List<Punt> SplitPunten(string punten)
         {
             string[] puntenSplit = punten.Split(",");
@@ -54,8 +73,14 @@ namespace Labo_Prog
             {
                 string puntTrimmed = punt.Trim();
                 string[] cordinaten = puntTrimmed.Split(' ');
-                double.TryParse(cordinaten[0], out double x);
-                double.TryParse(cordinaten[1], out double y);
+                if(!double.TryParse(cordinaten[0], out double x))
+                {
+                    throw new CoordinateException("Een C coordinaat in een van de puntlijsten in file WRdata.csv was geen nummer van het type Double. Gelieve dit te veranderen");
+                }
+                if (!double.TryParse(cordinaten[1], out double y))
+                {
+                    throw new CoordinateException("Een Y coordinaat in een van de puntlijsten in file WRdata.csv was geen nummer van het type Double. Gelieve dit te veranderen");
+                }
                 Punt punt1 = new Punt(x, y);
                 toReturn.Add(punt1);
             }
@@ -64,7 +89,7 @@ namespace Labo_Prog
 
 
         }
-
+        
         public static List<Gemeente> MaakGemeenten(string path)
         {
             List<Straat> straten = MaakStraten(path);
@@ -96,7 +121,7 @@ namespace Labo_Prog
             return toReturn;
 
         }
-
+        
         public static List<Provincie> MaakProvincies(string path)
         {
             List<Gemeente> gemeentes = MaakGemeenten(path);
