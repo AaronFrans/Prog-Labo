@@ -9,21 +9,19 @@ namespace Labo_Prog
 {
     class Tools
     {
-        public static List<Straat> MaakStraten(string path)
+        static public List<Straat> MaakStraten(string path)
         {
             Dictionary<int, List<Segment>> straten = Parser.ParseSegment(path, "WRdata");
             Dictionary<int, string> straatNaamLookup = Parser.ParseStraatNamen(path, "WRstraatnamen");
 
 
             List<Straat> toReturn = new List<Straat>();
-            int GraafIDCounter = 1;
             foreach (KeyValuePair<int, List<Segment>> segmentenInStraat in straten)
             {
                 if (straatNaamLookup.ContainsKey(segmentenInStraat.Key))
                 {
-                    Graaf graafInStraat = Graaf.BuildGraaf(GraafIDCounter, segmentenInStraat.Value);
+                    Graaf graafInStraat = Graaf.BuildGraaf(segmentenInStraat.Key, segmentenInStraat.Value);
                     Straat toAdd = new Straat(segmentenInStraat.Key, straatNaamLookup[segmentenInStraat.Key], graafInStraat);
-                    GraafIDCounter++;
                     toReturn.Add(toAdd);
                 }
 
@@ -31,6 +29,9 @@ namespace Labo_Prog
 
             return toReturn;
         }
+
+
+
         public static Segment MakeSegment(string[] line)
         {
             string toTrim = "LINESTRING( )";
@@ -64,7 +65,7 @@ namespace Labo_Prog
 
         }
 
-        public static List<Gemeente> MaakGemeentes(string path)
+        public static List<Gemeente> MaakGemeenten(string path)
         {
             List<Straat> straten = MaakStraten(path);
             Dictionary<int, string> gemeenteNaamLookup = Parser.ParseGemeenteNaam(path, "WRgemeentenaam");
@@ -80,48 +81,46 @@ namespace Labo_Prog
                     Parallel.ForEach(gemeente.Value, (straatID) =>
                     {
 
-                        if (straten.Any(s => s.m_ID == straatID))
+                        if (straten.Any(s => s.m_StraatID == straatID))
                         {
-                            stratenInGemeente.Add(straten.First(s => s.m_ID == straatID));
+                            stratenInGemeente.Add(straten.First(s => s.m_StraatID == straatID));
 
                         }
 
                     });
                     Gemeente gemeenteToAdd = new Gemeente(gemeenteID, gemeenteNaamLookup[gemeenteID], stratenInGemeente);
-                    toReturn.Add(gemeenteToAdd);
-                    Console.WriteLine("added Gemeente: " + gemeenteID);
+                    if (gemeenteToAdd.m_Straten.Count != 0)
+                        toReturn.Add(gemeenteToAdd);
                 }
             }
-            Console.WriteLine("added all gemeentes");
             return toReturn;
 
         }
 
-        public static List<Provincy> MaakProvincies(string path)
+        public static List<Provincie> MaakProvincies(string path)
         {
-            List<Gemeente> gemeentes = MaakGemeentes(path);
-            Dictionary<int, string> provincyNaamLookup = Parser.ParseProvincyNaam(path, "ProvincieIDsVlaanderen", "ProvincieInfo");
-            Dictionary<int, List<int>> GemeentesPerProvincyLookup = Parser.ParseGemeentesinProvincy(path, "ProvincieIDsVlaanderen", "ProvincieInfo");
+            List<Gemeente> gemeentes = MaakGemeenten(path);
+            Dictionary<int, string> ProvincieNaamLookup = Parser.ParseProvincieNaam(path, "ProvincieIDsVlaanderen", "ProvincieInfo");
+            Dictionary<int, List<int>> GemeentesPerProvincieLookup = Parser.ParseGemeentesinProvincie(path, "ProvincieIDsVlaanderen", "ProvincieInfo");
 
-            List<Provincy> toReturn = new List<Provincy>();
+            List<Provincie> toReturn = new List<Provincie>();
 
-            foreach (KeyValuePair<int, List<int>> provincy in GemeentesPerProvincyLookup)
+            foreach (KeyValuePair<int, List<int>> Provincie in GemeentesPerProvincieLookup)
             {
-                int provincyID = provincy.Key;
-                if (provincyNaamLookup.ContainsKey(provincyID))
+                int ProvincieID = Provincie.Key;
+                if (ProvincieNaamLookup.ContainsKey(ProvincieID))
                 {
-                    List<Gemeente> gemeentesInProvincy = new List<Gemeente>();
-                    foreach (int gemeenteID in provincy.Value)
+                    List<Gemeente> gemeentesInProvincie = new List<Gemeente>();
+                    foreach (int gemeenteID in Provincie.Value)
                     {
-                        if(gemeentes.Any(g => g.m_GemeenteID == gemeenteID))
+                        if (gemeentes.Any(g => g.m_GemeenteID == gemeenteID))
                         {
-                            gemeentesInProvincy.Add(gemeentes.First(g => g.m_GemeenteID == gemeenteID));
+                            gemeentesInProvincie.Add(gemeentes.First(g => g.m_GemeenteID == gemeenteID));
 
                         }
                     }
-                    Provincy provincyToAdd = new Provincy(provincyID, provincyNaamLookup[provincyID], gemeentesInProvincy);
-                    toReturn.Add(provincyToAdd);
-                    Console.WriteLine("added Provincy: " + provincyID);
+                    Provincie ProvincieToAdd = new Provincie(ProvincieID, ProvincieNaamLookup[ProvincieID], gemeentesInProvincie);
+                    toReturn.Add(ProvincieToAdd);
 
                 }
 

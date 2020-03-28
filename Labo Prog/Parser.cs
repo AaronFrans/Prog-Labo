@@ -32,9 +32,8 @@ namespace Labo_Prog
             Dictionary<int, List<Segment>> toReturn = new Dictionary<int, List<Segment>>();
             foreach (string[] line in lines)
             {
-                int linksStraatID, rechtStraatID;
-                int.TryParse(line[line.Length - 1], out linksStraatID);
-                int.TryParse(line[line.Length - 2], out rechtStraatID);
+                int.TryParse(line[line.Length - 1], out int linksStraatID);
+                int.TryParse(line[line.Length - 2], out int rechtStraatID);
                 if (linksStraatID == rechtStraatID)
                 {
                     if (linksStraatID != -9)
@@ -160,11 +159,11 @@ namespace Labo_Prog
 
             foreach (var line in lines)
             {
-                int id;
-                int.TryParse(line[0], out id);
+                
+                int.TryParse(line[0], out int id);
                 if (id > 0)
                 {
-                    straten.Add(id, line[1].Trim(' ', '"'));
+                    straten.Add(id, line[1].Trim(' '));
                 }
 
             }
@@ -179,9 +178,9 @@ namespace Labo_Prog
             List<string[]> lines = FileSplitter(path, fileName, "csv", ';');
             foreach (var line in lines)
             {
-                int gemeenteID, straatID;
-                int.TryParse(line[0], out straatID);
-                int.TryParse(line[1], out gemeenteID);
+                 
+                int.TryParse(line[0], out int straatID);
+                int.TryParse(line[1], out int gemeenteID);
                 if (gemeenteID > 0)
                 {
                     bool isFound = false;
@@ -231,8 +230,8 @@ namespace Labo_Prog
                 bool isAdded = false;
                 if (line[2] == "nl")
                 {
-                    int id;
-                    int.TryParse(line[1], out id);
+                    
+                    int.TryParse(line[1], out int id);
                     foreach (KeyValuePair<int, string> pair in gemeente)
                     {
                         if (id == pair.Key)
@@ -253,17 +252,17 @@ namespace Labo_Prog
         }
 
 
-        public static Dictionary<int, string> ParseProvincyNaam(string path, string fileName1, string fileName2)
+        public static Dictionary<int, string> ParseProvincieNaam(string path, string fileName1, string fileName2)
         {
-            Dictionary<int, string> provincy = new Dictionary<int, string>();
+            Dictionary<int, string> Provincie = new Dictionary<int, string>();
             List<string[]> lines = FileSplitter(path, fileName1, "csv", ',');
-            List<int> neededProvincyIDs = new List<int>();
+            List<int> neededProvincieIDs = new List<int>();
             foreach (var line in lines)
             {
                 foreach (string st in line)
                 {
                     int.TryParse(st, out int id);
-                    neededProvincyIDs.Add(id);
+                    neededProvincieIDs.Add(id);
                 }
             }
 
@@ -272,14 +271,14 @@ namespace Labo_Prog
             foreach (var line in lines)
             {
 
-                int provincyID;
-                int.TryParse(line[1], out provincyID);
+                
+                int.TryParse(line[1], out int ProvincieID);
                 if (line[2] == "nl")
                 {
                     bool isNeeded = false;
-                    foreach (int id in neededProvincyIDs)
+                    foreach (int id in neededProvincieIDs)
                     {
-                        if (id == provincyID)
+                        if (id == ProvincieID)
                         {
                             isNeeded = true;
                         }
@@ -289,9 +288,9 @@ namespace Labo_Prog
                     {
                         bool isAdded = false;
 
-                        int id;
-                        int.TryParse(line[1], out id);
-                        foreach (KeyValuePair<int, string> pair in provincy)
+
+                        int.TryParse(line[1], out int id);
+                        foreach (KeyValuePair<int, string> pair in Provincie)
                         {
                             if (id == pair.Key)
                             {
@@ -299,44 +298,43 @@ namespace Labo_Prog
                             }
                         }
                         if (isAdded == false)
-                            provincy.Add(id, line[3]);
+                            Provincie.Add(id, line[3]);
 
                     }
                 }
             }
-            provincy = provincy.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            return provincy;
+            Provincie = Provincie.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            return Provincie;
 
         }
 
-        public static Dictionary<int, List<int>> ParseGemeentesinProvincy(string path, string fileName1, string fileName2)
+        public static Dictionary<int, List<int>> ParseGemeentesinProvincie(string path, string fileName1, string fileName2)
         {
-            Dictionary<int, List<int>> gemeenteInProvincy = new Dictionary<int, List<int>>();
+            Dictionary<int, List<int>> gemeenteInProvincie = new Dictionary<int, List<int>>();
             List<string[]> lines = FileSplitter(path, fileName1, "csv", ',');
-            List<int> neededProvincyIDs = new List<int>();
+            List<int> neededProvincieIDs = new List<int>();
             foreach (var line in lines)
             {
                 foreach (string st in line)
                 {
                     int.TryParse(st, out int id);
-                    neededProvincyIDs.Add(id);
+                    neededProvincieIDs.Add(id);
                 }
             }
 
             lines = FileSplitter(path, fileName2, "csv", ';');
             foreach (var line in lines)
             {
-                int gemeenteID, provincyID;
-                int.TryParse(line[1], out provincyID);
-                int.TryParse(line[0], out gemeenteID);
-                if (provincyID > 0)
+                int.TryParse(line[1], out int ProvincieID);
+                int.TryParse(line[0], out int gemeenteID);
+                if (ProvincieID > 0)
                 {
                     if (line[2] == "nl")
                     {
                         bool isNeeded = false;
-                        foreach (int id in neededProvincyIDs)
+                        foreach (int id in neededProvincieIDs)
                         {
-                            if (id == provincyID)
+                            if (id == ProvincieID)
                             {
                                 isNeeded = true;
                             }
@@ -345,18 +343,18 @@ namespace Labo_Prog
                         if (isNeeded)
                         {
                             bool isFound = false;
-                            if (gemeenteInProvincy.Count == 0)
+                            if (gemeenteInProvincie.Count == 0)
                             {
 
-                                gemeenteInProvincy.Add(provincyID, new List<int>() { gemeenteID });
+                                gemeenteInProvincie.Add(ProvincieID, new List<int>() { gemeenteID });
 
                             }
                             else
                             {
-                                foreach (KeyValuePair<int, List<int>> Provincy in gemeenteInProvincy)
+                                foreach (KeyValuePair<int, List<int>> Provincie in gemeenteInProvincie)
                                 {
 
-                                    if (provincyID == Provincy.Key)
+                                    if (ProvincieID == Provincie.Key)
                                     {
                                         isFound = true;
                                     }
@@ -365,11 +363,11 @@ namespace Labo_Prog
                                 }
                                 if (!isFound)
                                 {
-                                    gemeenteInProvincy.Add(provincyID, new List<int>() { gemeenteID });
+                                    gemeenteInProvincie.Add(ProvincieID, new List<int>() { gemeenteID });
                                 }
                                 else
                                 {
-                                    gemeenteInProvincy[provincyID].Add(gemeenteID);
+                                    gemeenteInProvincie[ProvincieID].Add(gemeenteID);
                                 }
                             }
                         }
@@ -381,7 +379,7 @@ namespace Labo_Prog
 
             }
 
-            return gemeenteInProvincy;
+            return gemeenteInProvincie;
         }
 
 

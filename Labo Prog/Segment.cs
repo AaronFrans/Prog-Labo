@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Labo_Prog
 {
-    class Segment
+    [Serializable()]
+    public class Segment : ISerializable
     {
-        #region Constructor
+        #region Constructors
+
         public Segment(int segmentID, Knoop beginKnoop, Knoop eindKnoop, List<Punt> vertices)
         {
             m_SegmentID = segmentID;
             m_BeginKnoop = beginKnoop;
             m_EindKnoop = eindKnoop;
             m_Vertices = vertices;
+        }
+        private Segment(SerializationInfo info, StreamingContext context)
+        {
+            m_SegmentID = (int)info.GetValue("m_SegmentID", typeof(int));
+            m_BeginKnoop = (Knoop)info.GetValue("m_BeginKnoop", typeof(Knoop));
+            m_EindKnoop = (Knoop)info.GetValue("m_EindKnoop", typeof(Knoop));
+            m_Vertices = (List<Punt>)info.GetValue("m_Vertices", typeof(List<Punt>));
         }
         #endregion
 
@@ -50,15 +59,38 @@ namespace Labo_Prog
             return toReturn;
         }
 
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("m_SegmentID", m_SegmentID);
+            info.AddValue("m_BeginKnoop", m_BeginKnoop);
+            info.AddValue("m_EindKnoop", m_EindKnoop);
+            info.AddValue("m_Vertices", m_Vertices);
+        }
+
+        #endregion
+
+        #region Functions
+
+        public double LengthOfSegment()
+        {
+            double toReturn = 0;
+            for (int i = 0; i < m_Vertices.Count -1; i++)
+            {
+                toReturn += Punt.DistanceBetweenTwoPoint(m_Vertices[i], m_Vertices[i + 1]);
+            }
+
+            return toReturn;
+        }
+
         #endregion
 
         #region Properties
-        public Knoop m_BeginKnoop { get; private set; }
-        public Knoop m_EindKnoop { get; private set; }
+        public Knoop m_BeginKnoop { get; set; }
+        public Knoop m_EindKnoop { get; set; }
 
-        public int m_SegmentID { get; private set; }
+        public int m_SegmentID { get; set; }
 
-        public List<Punt> m_Vertices = new List<Punt>();
+        public List<Punt> m_Vertices { get; set; }
 
         #endregion
     }

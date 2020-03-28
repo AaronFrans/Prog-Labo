@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Labo_Prog
 {
-    public class Knoop
+    [Serializable()]
+    public class Knoop : ISerializable
     {
         #region Constructor
-        private Knoop()
-        {
 
-        }
-
-    public Knoop(int knoopID, Punt punt)
+        public Knoop(int knoopID, Punt punt)
         {
             m_KnoopID = knoopID;
             m_Punt = punt;
+        }
+        private  Knoop(SerializationInfo info, StreamingContext context)
+        {
+            m_KnoopID = (int)info.GetValue("m_KnoopID", typeof(int));
+            m_Punt = (Punt)info.GetValue("m_Punt", typeof(Punt));
         }
         #endregion
 
@@ -36,6 +38,12 @@ namespace Labo_Prog
         public override int GetHashCode()
         {
             return HashCode.Combine(m_KnoopID, m_Punt);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("m_KnoopID", m_KnoopID);
+            info.AddValue("m_Punt", m_Punt);
         }
         #endregion
 
