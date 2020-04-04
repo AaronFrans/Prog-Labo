@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 
 
-namespace Labo_Prog
+namespace Objects
 {
     [Serializable()]
     public class Punt : ISerializable

@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
+using Objects;
 
-namespace Labo_Prog
+
+namespace Tool1
 {
     class Output
     {
         public static void MakeOutputFiles(List<Provincie> toOutput)
         {
             SerializeProvincies(toOutput);
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Serlializatie Klaar");
+            Console.WriteLine("****************************************");
             MakeReport(toOutput);
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Rapport Klaar");
+            Console.WriteLine("****************************************");
         }
         private static void SerializeProvincies(List<Provincie> toSerialize)
         {

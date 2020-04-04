@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
+using Objects;
 
-namespace Labo_Prog
+namespace Tool1
 {
     class Tools
     {
-         
+
         static public List<Straat> MaakStraten(string path)
         {
             Dictionary<int, List<Segment>> straten = Parser.ParseSegment(path, "WRdata");
@@ -30,7 +31,7 @@ namespace Labo_Prog
 
             return toReturn;
         }
-         
+
         public static void UnzipFiles(string path)
         {
             var directory = new DirectoryInfo(path);
@@ -43,13 +44,13 @@ namespace Labo_Prog
             }
 
         }
-         
+
         public static Segment MakeSegment(string[] line)
         {
             string toTrim = "LINESTRING( )";
             List<Punt> segmentPunten = SplitPunten(line[1].Trim(toTrim.ToCharArray()));
             Knoop beginKnoop, eindKnoop;
-            if(!int.TryParse(line[4], out int beginKnoopID))
+            if (!int.TryParse(line[4], out int beginKnoopID))
             {
                 throw new IdException("Een beginKnoopID in file WRdata.csv was geen nummer van het type Int. Gelieve dit te veranderen");
             }
@@ -64,7 +65,7 @@ namespace Labo_Prog
 
             return toReturn;
         }
-         
+
         public static List<Punt> SplitPunten(string punten)
         {
             string[] puntenSplit = punten.Split(",");
@@ -73,7 +74,7 @@ namespace Labo_Prog
             {
                 string puntTrimmed = punt.Trim();
                 string[] cordinaten = puntTrimmed.Split(' ');
-                if(!double.TryParse(cordinaten[0], out double x))
+                if (!double.TryParse(cordinaten[0], out double x))
                 {
                     throw new CoordinateException("Een C coordinaat in een van de puntlijsten in file WRdata.csv was geen nummer van het type Double. Gelieve dit te veranderen");
                 }
@@ -89,7 +90,7 @@ namespace Labo_Prog
 
 
         }
-        
+
         public static List<Gemeente> MaakGemeenten(string path)
         {
             List<Straat> straten = MaakStraten(path);
@@ -115,13 +116,17 @@ namespace Labo_Prog
                     });
                     Gemeente gemeenteToAdd = new Gemeente(gemeenteID, gemeenteNaamLookup[gemeenteID], stratenInGemeente);
                     if (gemeenteToAdd.m_Straten.Count != 0)
+                    {
                         toReturn.Add(gemeenteToAdd);
+                        Console.WriteLine("added " + gemeenteToAdd.m_GemeenteID);
+                    }
+
                 }
             }
             return toReturn;
 
         }
-        
+
         public static List<Provincie> MaakProvincies(string path)
         {
             List<Gemeente> gemeentes = MaakGemeenten(path);

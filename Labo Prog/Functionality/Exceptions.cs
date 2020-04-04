@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Objects;
 
-namespace Labo_Prog
+namespace Tool1
 {
     class IdException : Exception
     {

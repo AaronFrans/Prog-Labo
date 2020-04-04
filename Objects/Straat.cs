@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Labo_Prog
+namespace Objects
 {
     [Serializable()]
-    class Straat : ISerializable
+    public class Straat : ISerializable
     {
         #region Constructor
         public Straat(int id, string naam, Graaf graaf)

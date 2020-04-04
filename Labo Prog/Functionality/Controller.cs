@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Objects;
 
-namespace Labo_Prog
+namespace Tool1
 {
     class Controller
     {
@@ -16,6 +17,9 @@ namespace Labo_Prog
                 {
                     List<Provincie> provincies = SetupProvincies();
                     Output.MakeOutputFiles(provincies);
+                    Console.WriteLine("****************************************");
+                    Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
+                    Console.WriteLine("****************************************");
                     endProgram = true;
                 }
                 catch (FileNotFoundException fnf)

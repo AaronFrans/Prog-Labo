@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 
-namespace Labo_Prog
+namespace Objects
 {
     [Serializable()]
-    class Provincie : ISerializable
+    public class Provincie : ISerializable
     {
         public Provincie(int ProvincieID, string naam, List<Gemeente> gemeentes)
         {
