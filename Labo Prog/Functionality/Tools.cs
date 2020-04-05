@@ -118,7 +118,6 @@ namespace Tool1
                     if (gemeenteToAdd.m_Straten.Count != 0)
                     {
                         toReturn.Add(gemeenteToAdd);
-                        Console.WriteLine("added " + gemeenteToAdd.m_GemeenteID);
                     }
 
                 }
