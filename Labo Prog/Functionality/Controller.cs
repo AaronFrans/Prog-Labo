@@ -17,6 +17,8 @@ namespace Tool1
                 {
                     List<Provincie> provincies = SetupProvincies();
                     Output.MakeOutputFiles(provincies);
+
+                    Console.Clear();
                     Console.WriteLine("****************************************");
                     Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
                     Console.WriteLine("Alle output folders zijn in de locale doucments foldre geplaatst, onder WRData-Output");
