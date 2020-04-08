@@ -19,6 +19,7 @@ namespace Tool1
                     Output.MakeOutputFiles(provincies);
                     Console.WriteLine("****************************************");
                     Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
+                    Console.WriteLine("Alle output folders zijn in de locale doucments foldre geplaatst, onder WRData-Output");
                     Console.WriteLine("****************************************");
                     endProgram = true;
                 }

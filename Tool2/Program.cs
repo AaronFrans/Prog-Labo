@@ -13,7 +13,7 @@ namespace Tool2
 
             DbBeheer dbBeheer = new DbBeheer(connectionString);
             Console.WriteLine("dbBeheer Aangemaakt");
-            List<Provincie> provincies = Parser.Deserialize(@"C:\Users\aaron\Downloads");
+            List<Provincie> provincies = Parser.Deserialize();
             Console.WriteLine("provincies Aangemaakt");
             dbBeheer.InsertIntoDB(provincies);
 

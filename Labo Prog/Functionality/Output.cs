@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
 using Objects;
-
+using Syroot.Windows.IO;
 
 namespace Tool1
 {
@@ -12,18 +12,20 @@ namespace Tool1
     {
         public static void MakeOutputFiles(List<Provincie> toOutput)
         {
-            SerializeProvincies(toOutput);
+            KnownFolder userDocuments = new KnownFolder(KnownFolderType.Documents);
+            Directory.CreateDirectory(userDocuments.Path + @"\WRData-Output");
+            SerializeProvincies(toOutput, userDocuments.Path + @"\WRData-Output\ProvinciesSerialized.txt");
             Console.WriteLine("****************************************");
             Console.WriteLine("Serlializatie Klaar");
             Console.WriteLine("****************************************");
-            MakeReport(toOutput);
+            MakeReport(toOutput , userDocuments.Path + @"\WRData-Output\Rapport.txt");
             Console.WriteLine("****************************************");
             Console.WriteLine("Rapport Klaar");
             Console.WriteLine("****************************************");
         }
-        private static void SerializeProvincies(List<Provincie> toSerialize)
+        private static void SerializeProvincies(List<Provincie> toSerialize, string path)
         {
-            using (Stream s = File.Open(@"C:\Users\aaron\Downloads\Provincies.txt", FileMode.Create))
+            using (Stream s = File.Open(path, FileMode.Create))
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(s, toSerialize);
@@ -31,15 +33,15 @@ namespace Tool1
 
         }
 
-        private static void MakeReport(List<Provincie> toReport)
+        private static void MakeReport(List<Provincie> toReport, string path)
         {
-            var report = File.Create(@"C:\Users\aaron\Downloads\Rapport.txt");
+            var report = File.Create(path);
             report.Close();
-            ReportNrOfStreets(toReport);
-            ReportStraatInfoForProvincie(toReport);
+            ReportNrOfStreets(toReport, path);
+            ReportStraatInfoForProvincie(toReport, path);
         }
 
-        private static void ReportNrOfStreets(List<Provincie> toReport)
+        private static void ReportNrOfStreets(List<Provincie> toReport, string path)
         {
             List<int> nrOfStreetsPerProvinie = new List<int>();
             int totalNrOfStreets = 0;
@@ -50,7 +52,7 @@ namespace Tool1
                 totalNrOfStreets += provincie.NrOfStreets();
 
             }
-            using (StreamWriter sw = File.AppendText(@"C:\Users\aaron\Downloads\Rapport.txt"))
+            using (StreamWriter sw = File.AppendText(path))
             {
 
 
@@ -65,9 +67,9 @@ namespace Tool1
             }
 
         }
-        private static void ReportStraatInfoForProvincie(List<Provincie> toReport)
+        private static void ReportStraatInfoForProvincie(List<Provincie> toReport, string path)
         {
-            using (StreamWriter sw = File.AppendText(@"C:\Users\aaron\Downloads\Rapport.txt"))
+            using (StreamWriter sw = File.AppendText(path))
             {
                 foreach (Provincie provincie in toReport)
                 {
