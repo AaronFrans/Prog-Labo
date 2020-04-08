@@ -21,7 +21,7 @@ namespace Tool1
                     Console.Clear();
                     Console.WriteLine("****************************************");
                     Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
-                    Console.WriteLine("Alle output folders zijn in de locale doucments foldre geplaatst, onder WRData-Output");
+                    Console.WriteLine("Alle output folders zijn in de locale documents foldre geplaatst, onder WRData-Output");
                     Console.WriteLine("****************************************");
                     endProgram = true;
                 }

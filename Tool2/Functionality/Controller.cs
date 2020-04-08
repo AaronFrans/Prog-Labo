@@ -13,20 +13,21 @@ namespace Tool2.Functionality
         public static void RunTool2()
         {
             bool endProgram = false;
-            while (endProgram)
+            while (!endProgram)
             {
                 try
                 {
                     string connectionString = GetConnectionString();
 
                     DbBeheer dbBeheer = new DbBeheer(connectionString);
+                    Console.Clear();
                     List<Provincie> provincies = Parser.Deserialize();
                     dbBeheer.InsertIntoDB(provincies);
 
                     Console.Clear();
                     Console.WriteLine("****************************************");
                     Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
-                    Console.WriteLine("Alle output folders zijn in de locale doucments foldre geplaatst, onder WRData-Output");
+                    Console.WriteLine("Alle items zitten in de databank");
                     Console.WriteLine("****************************************");
                     endProgram = true;
                 }
