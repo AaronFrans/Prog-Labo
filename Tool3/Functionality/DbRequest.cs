@@ -266,7 +266,7 @@ namespace Tool3
         }
         #endregion
 
-        #region StraatViaStraanEnGemeenteNaam
+        #region straatViaStraanEnGemeenteNaam
         public void RequestStraat(string straatNaam, string gemeenteNaam)
         {
             Straat straatRequested = RequestStraatWithStraatNaamAndGemeenteNaam(straatNaam, gemeenteNaam);
@@ -458,6 +458,74 @@ namespace Tool3
 
                 return toReturn;
             }
+        }
+        #endregion
+
+        #region stratenAlphabetischViaGemeenteID
+        public void RequestStraatIDs(int gemeenteID)
+        {
+            List<string> straatNaamen = RequestStraatIDsForGemeenteNaam(gemeenteID);
+
+            if (straatNaamen != null)
+            {
+                Console.WriteLine("*****************************");
+                Console.WriteLine("StraatIDs van gemeente met ID {0}", gemeenteID);
+                foreach (var straatNaam in straatNaamen)
+                {
+                    Console.WriteLine(straatNaam);
+                }
+                Console.WriteLine("*****************************");
+            }
+            else
+            {
+                Console.WriteLine("*****************************");
+                Console.WriteLine("Geen straten gevonden voor gemeente met ID {0}", gemeenteID);
+                Console.WriteLine("*****************************");
+            }
+        }
+        private List<string> RequestStraatIDsForGemeenteNaam(int gemeenteID)
+        {
+            List<string> toReturn = new List<string>();
+
+            string query = "SELECT dbo.Straat.Naam " +
+                           "FROM dbo.GemeenteStraaten " +
+                           "INNER JOIN dbo.Gemeente " +
+                           "ON dbo.Gemeente.ID = dbo.GemeenteStraaten.GemeenteID " +
+                           "INNER JOIN dbo.Straat " +
+                           "ON dbo.Straat.ID = dbo.GemeenteStraaten.StraatID " +
+                           "WHERE dbo.Gemeente.ID = @gemeenteID " +
+                           "ORDER BY dbo.Straat.Naam ASC;";
+
+
+            using (SqlConnection connection = GetConnection())
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@gemeenteID", gemeenteID);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        string toAdd = (string)reader["Naam"];
+                        toReturn.Add(toAdd);
+                    }
+                }
+                else
+                {
+                    toReturn = null;
+                }
+
+
+                reader.Close();
+
+                connection.Close();
+            }
+
+            return toReturn;
+
         }
         #endregion
 

@@ -8,11 +8,9 @@ namespace Tool3
         static void Main(string[] args)
         {
             DbRequest dbRequest = new DbRequest(@"Data Source=DESKTOP-CQ5M5QL\SQLEXPRESS;Initial Catalog=Labo;Integrated Security=True");
-            Console.WriteLine("geef straatnaam");
-            string input1 = Console.ReadLine(); 
-            Console.WriteLine("geef gemeentenaam");
-            string input2 = Console.ReadLine();
-            dbRequest.RequestStraat(input1, input2);
+            Console.WriteLine("geef gemeenteID");
+            int.TryParse(Console.ReadLine(), out int input);
+            dbRequest.RequestStraatIDs(input);
 
             Console.ReadLine();
         }
