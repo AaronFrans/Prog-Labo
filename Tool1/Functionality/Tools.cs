@@ -7,7 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using Objects;
 
-namespace Tool1
+namespace Tool1.Functionality
 {
     class Tools
     {
@@ -28,6 +28,9 @@ namespace Tool1
                     toReturn.Add(toAdd);
                 }
             }
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Alle Straat objecten zijn aangemaakt");
+            Console.WriteLine("****************************************");
 
             return toReturn;
         }
@@ -122,6 +125,10 @@ namespace Tool1
 
                 }
             }
+
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Alle Gemeente objecten zijn aangemaakt");
+            Console.WriteLine("****************************************");
             return toReturn;
 
         }
@@ -156,6 +163,9 @@ namespace Tool1
 
             }
 
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Alle Provincy objecten zijn aangemaakt");
+            Console.WriteLine("****************************************");
 
             return toReturn;
         }

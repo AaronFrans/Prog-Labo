@@ -33,6 +33,7 @@ namespace Tool2.Utilities
             }
             else
             {
+                Console.Clear();
                 KnownFolder userDocuments = new KnownFolder(KnownFolderType.Documents);
 
                 using (Stream s = File.Open(@$"{userDocuments.Path}\WRData-Output\ProvinciesSerialized.txt", FileMode.Open))

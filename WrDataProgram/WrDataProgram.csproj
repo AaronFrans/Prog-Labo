@@ -5,4 +5,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tool1\Tool1.csproj" />
+    <ProjectReference Include="..\Tool2\Tool2.csproj" />
+    <ProjectReference Include="..\Tool3\Tool3.csproj" />
+  </ItemGroup>
+
 </Project>

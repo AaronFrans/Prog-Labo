@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Objects;
 
-namespace Tool1
+namespace Tool1.Functionality
 {
     class IdException : Exception
     {

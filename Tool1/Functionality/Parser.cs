@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Objects;
 
-namespace Tool1
+namespace Tool1.Functionality
 {
     class Parser
     {

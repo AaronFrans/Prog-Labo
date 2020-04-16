@@ -6,7 +6,7 @@ using System.Linq;
 using Objects;
 using Syroot.Windows.IO;
 
-namespace Tool1
+namespace Tool1.Functionality
 {
     class Output
     {

@@ -113,7 +113,7 @@ namespace Tool3
 
             string query = "SELECT dbo.Straat.* " +
                            "FROM dbo.Straat " +
-                           "SHERE dbo.Straat.ID = @straatID;";
+                           "WHERE dbo.Straat.ID = @straatID;";
 
             using (SqlConnection connection = GetConnection())
             {
@@ -280,7 +280,7 @@ namespace Tool3
             else
             {
                 Console.WriteLine("*****************************");
-                Console.WriteLine("Straat met met naam {0} van gemeente met naam {1} kan niet gemaakt worden", straatNaam , gemeenteNaam);
+                Console.WriteLine("Straat met met naam {0} van gemeente met naam {1} kan niet gemaakt worden", straatNaam, gemeenteNaam);
                 Console.WriteLine("*****************************");
             }
         }
@@ -528,6 +528,8 @@ namespace Tool3
 
         }
         #endregion
+
+
 
     }
 }

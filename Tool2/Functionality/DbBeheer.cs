@@ -130,11 +130,8 @@ namespace Tool2.Utilities
                     keyColumns[1] = table.Columns["Y"];
                     table.PrimaryKey = keyColumns;
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
                     foreach (Punt punt in toInsert)
                     {
-                        Console.WriteLine("Punt " + counter + " out of " + toInsert.Count);
-                        counter++;
                         object[] keyVals = new object[] { punt.m_X, punt.m_Y };
 
                         if (!table.Rows.Contains(keyVals))
@@ -170,11 +167,9 @@ namespace Tool2.Utilities
 
                     bulkCopy.BulkCopyTimeout = 0;
 
-                    int counter = 1;
+                   
                     foreach (Knoop knoop in toInsert)
                     {
-                        Console.WriteLine("Knoop " + counter + " out of " + toInsert.Count);
-                        counter++;
 
                         if (!table.Rows.Contains(knoop.m_KnoopID))
                         {
@@ -212,11 +207,9 @@ namespace Tool2.Utilities
 
                     bulkCopy.BulkCopyTimeout = 0;
 
-                    int counter = 1;
+                    
                     foreach (Segment segment in toInsert)
                     {
-                        Console.WriteLine("Segment " + counter + " out of " + toInsert.Count);
-                        counter++;
 
                         if (!table.Rows.Contains(segment.m_SegmentID))
                         {
@@ -244,11 +237,9 @@ namespace Tool2.Utilities
                     table.Columns.Add("PuntY", typeof(double));
 
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
+                    
                     foreach (Segment segment in toInsert)
                     {
-                        Console.WriteLine("Segment vertices " + counter + " out of " + toInsert.Count);
-                        counter++;
                         foreach (Punt punt in segment.m_Vertices)
                         {
                             DataRow row = table.NewRow();
@@ -283,11 +274,9 @@ namespace Tool2.Utilities
 
                     bulkCopy.BulkCopyTimeout = 0;
 
-                    int counter = 1;
+                    
                     foreach (Graaf graaf in toInsert)
                     {
-                        Console.WriteLine("Graaf " + counter + " out of " + toInsert.Count);
-                        counter++;
 
                         if (!table.Rows.Contains(graaf.m_GraafID))
                         {
@@ -308,12 +297,10 @@ namespace Tool2.Utilities
                     table.Columns.Add("SegmentID", typeof(int));
 
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
+                    
 
                     foreach (Graaf graaf in toInsert)
                     {
-                        Console.WriteLine("Graaf Map " + counter + " out of " + toInsert.Count);
-                        counter++;
                         foreach (var pair in graaf.m_Map)
                         {
                             foreach (Segment segment in pair.Value)
@@ -351,12 +338,10 @@ namespace Tool2.Utilities
                     table.PrimaryKey = keyColumns;
 
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
+                   
 
                     foreach (var straatInfo in toInsert)
                     {
-                        Console.WriteLine("Straat " + counter + " out of " + toInsert.Count);
-                        counter++;
                         DataRow row = table.NewRow();
                         row["ID"] = straatInfo.Key;
                         row["Naam"] = straatInfo.Value.Key;
@@ -389,11 +374,10 @@ namespace Tool2.Utilities
 
                     bulkCopy.BulkCopyTimeout = 0;
 
-                    int counter = 1;
+                    
                     foreach (var pair in gemeentenToInsert)
                     {
-                        Console.WriteLine("Gemeente " + counter + " out of " + gemeentenToInsert.Count);
-                        counter++;
+                        
 
                         if (!table.Rows.Contains(pair.Key))
                         {
@@ -416,12 +400,10 @@ namespace Tool2.Utilities
                     table.Columns.Add("StraatID", typeof(int));
 
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
+                    
 
                     foreach (var pair in gemeenteStratenToInsert)
                     {
-                        Console.WriteLine("Gemeente straten " + counter + " out of " + gemeenteStratenToInsert.Count);
-                        counter++;
                         foreach (int StraatID in pair.Value)
                         {
                             DataRow row = table.NewRow();
@@ -456,12 +438,8 @@ namespace Tool2.Utilities
 
                     bulkCopy.BulkCopyTimeout = 0;
 
-                    int counter = 1;
                     foreach (var pair in provinciesToInsert)
                     {
-                        Console.WriteLine("Provincie " + counter + " out of " + provinciesToInsert.Count);
-                        counter++;
-
                         if (!table.Rows.Contains(pair.Key))
                         {
                             DataRow row = table.NewRow();
@@ -483,12 +461,10 @@ namespace Tool2.Utilities
                     table.Columns.Add("GemeenteID", typeof(int));
 
                     bulkCopy.BulkCopyTimeout = 0;
-                    int counter = 1;
+                    
 
                     foreach (var pair in provincieGemeenteToInsert)
                     {
-                        Console.WriteLine("Provincie gemeenten " + counter + " out of " + provincieGemeenteToInsert.Count);
-                        counter++;
                         foreach (int StraatID in pair.Value)
                         {
                             DataRow row = table.NewRow();

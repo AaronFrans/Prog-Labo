@@ -8,7 +8,7 @@ using Tool2.Utilities;
 
 namespace Tool2.Functionality
 {
-    class Controller
+    public class ControllerTool2
     {
         public static void RunTool2()
         {
@@ -61,7 +61,7 @@ namespace Tool2.Functionality
                     Console.Clear();
                     Console.WriteLine("******************************");
                     Console.WriteLine(se.GetType());
-                    Console.WriteLine("Er is iets fout met de Sql databank.(kijk of de service van de dfatabank aan staat, of dat de tables de juiste naam hebben.)");
+                    Console.WriteLine("Er is iets fout met de Sql databank.(kijk of de service van de databank aan staat, of dat de tables de juiste naam hebben.)");
                     Console.WriteLine("Gelieve alle databnken terug leeg te maken");
                     Console.WriteLine("******************************");
 
@@ -84,8 +84,6 @@ namespace Tool2.Functionality
             
             
         }
-
-
         private static string GetConnectionString()
         {
             

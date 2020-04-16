@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Objects;
 
-namespace Tool1
+namespace Tool1.Functionality
 {
-    class Controller
+    public class ControllerTool1
     {
 
         public static void RunTool1()
@@ -16,12 +16,12 @@ namespace Tool1
                 try
                 {
                     List<Provincie> provincies = SetupProvincies();
+                    
                     Output.MakeOutputFiles(provincies);
 
-                    Console.Clear();
                     Console.WriteLine("****************************************");
-                    Console.WriteLine("Programma Klaar: Het mag gesloten worden.");
-                    Console.WriteLine("Alle output folders zijn in de locale documents foldre geplaatst, onder WRData-Output");
+                    Console.WriteLine("Tool 1 Klaar:");
+                    Console.WriteLine("Alle output folders zijn in de locale documents folder geplaatst, onder WRData-Output");
                     Console.WriteLine("****************************************");
                     endProgram = true;
                 }
@@ -115,7 +115,7 @@ namespace Tool1
             {
                 Tools.UnzipFiles(path);
             }
-
+            Console.Clear();
             List<Provincie> provincies = Tools.MaakProvincies(path);
             return provincies;
         }
